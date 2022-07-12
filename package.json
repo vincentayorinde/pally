@@ -1,0 +1,19 @@
+{
+  "name": "pally",
+  "version": "1.0.0",
+  "description": "vinay's pet",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vincentayorinde/pally.git"
+  },
+  "author": "vincent ayorinde (vinay)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vincentayorinde/pally/issues"
+  },
+  "homepage": "https://github.com/vincentayorinde/pally#readme"
+}
