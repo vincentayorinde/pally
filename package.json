@@ -7,7 +7,10 @@
   "scripts": {
     "start:dev": "nodemon server.js",
     "start": "node server.js",
-    "seed": "node seed.js",
+    "migrate:one": "node db/sql/makeMigrations/${npm_config_file}/index.js",
+    "migrate:undo": "node db/sql/makeMigrations/${npm_config_file}/drop.js",
+    "seed:one": "node db/sql/seedMigrations/${npm_config_file}/index.js",
+    "migrate:undo:all": "node db/sql/dropMigrations/index.js",
     "test": "NODE_ENV=test NODE_OPTIONS=--experimental-vm-modules jest --watchAll"
   },
   "repository": {
@@ -25,7 +28,8 @@
     "cors": "^2.8.5",
     "dotenv": "^16.0.1",
     "express": "^4.18.1",
-    "nodemon": "^2.0.19"
+    "nodemon": "^2.0.19",
+    "pg": "^8.7.3"
   },
   "devDependencies": {
     "jest": "^28.1.3",
