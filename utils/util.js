@@ -7,12 +7,12 @@ const serverResponse = (res, code, success, data) => {
     return res.status(code).json({ success, data });
 }
 
-const hashData = (data, salt) => {
+const hashData = async (data, salt) => {
     const hashedData = await bcrypt.hash(data, salt);
     return hashedData
 }
 
-const compareHash = (data, guard) => {
+const compareHash = async (data, guard) => {
     const validData = await bcrypt.compare(data, guard);
     return validData
 }
