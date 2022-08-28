@@ -1,5 +1,8 @@
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
+import * as dotenv from 'dotenv'
+
+dotenv.config()
 
 const serverResponse = (res, code, success, data) => {
     return res.status(code).json({ success, data })
@@ -39,10 +42,23 @@ const pagination = (page, size, data) => {
     }
 }
 
+const generateCode = (length) => {
+    let result = ''
+    let characters = process.env.CODE_GENERATOR
+    let charactersLength = characters.length
+    for (var i = 0; i < length; i++) {
+        result += characters.charAt(
+            Math.floor(Math.random() * charactersLength)
+        )
+    }
+    return result
+}
+
 export default {
     serverResponse,
     hashData,
     compareHash,
     jwtTokens,
     pagination,
+    generateCode
 }

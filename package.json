@@ -8,6 +8,7 @@
     "start:dev": "nodemon server.js",
     "start": "node server.js",
     "migrate:one": "node db/sql/makeMigrations/${npm_config_file}/index.js",
+    "migrate": "node db/sql/makeMigrations/${npm_config_file}/index.js",
     "migrate:undo": "node db/sql/makeMigrations/${npm_config_file}/drop.js",
     "seed:one": "node db/sql/seedMigrations/${npm_config_file}/index.js",
     "migrate:undo:all": "node db/sql/dropMigrations/index.js",
@@ -24,6 +25,7 @@
   },
   "homepage": "https://github.com/vincentayorinde/pally#readme",
   "dependencies": {
+    "@sendgrid/mail": "^7.7.0",
     "bcrypt": "^5.0.1",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
@@ -32,7 +34,8 @@
     "joi": "^17.6.0",
     "jsonwebtoken": "^8.5.1",
     "nodemon": "^2.0.19",
-    "pg": "^8.7.3"
+    "pg": "^8.7.3",
+    "pino": "^8.4.2"
   },
   "devDependencies": {
     "jest": "^28.1.3",
