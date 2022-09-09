@@ -2,41 +2,73 @@ import * as dotenv from 'dotenv'
 import ccxt from 'ccxt'
 import axios from 'axios'
 
-
-
 dotenv.config()
 
-
-
 const tick = async (config, binanceClient) => {
-    const { asset, base, allocation, spread } = config
-    const market =  `${asset}/${base}`
+    const {
+        asset,
+        base,
+        sellAllocation,
+        sellSpread,
+        buyAllocation,
+        buySpread,
+    } = config
+    const market = `${asset}/${base}`
 
-    const orders = await binanceClient.fetchOpenOrders(market);
-    orders.forEach(async order => {
-        await binanceClient.cancelOrder(order.id)
-    });
+    const orders = await binanceClient.fetchOpenOrders(market)
+
+    if (orders.length > 0) {
+        orders.forEach(async (order) => {
+            await binanceClient.cancelOrder(order.id)
+        })
+        console.log('the orders to cancel  >>>>>', orders)
+    }
 
     const results = await Promise.all([
-        'https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd',
-        'https://api.coingecko.com/api/v3/simple/price?ids=tether&vs_currencies=usd'
+        customReq(
+            'get',
+            'https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd'
+        ),
+        customReq(
+            'get',
+            'https://api.coingecko.com/api/v3/simple/price?ids=tether&vs_currencies=usd'
+        ),
     ])
 
-    const marketPrice = results[0].data.binance.usd / results[1].data.tether.usd
+    console.log('the prices result >>>', results[0].data, results[1].data)
 
-    const sellPrice = marketPrice * (1 + spread)
-    const buyPrice = marketPrice * (1 - spread)
+    const marketPrice = results[0].data.bitcoin.usd / results[1].data.tether.usd
+
+    console.log('the market price', Number(parseFloat(marketPrice).toFixed(2)))
+    console.log('the sell spread >>>', 1 + sellSpread, sellSpread)
+    console.log('the buy spread >>>', 1 - buySpread, buySpread)
+
+    const sellPrice = Number(parseFloat(marketPrice * (1 + sellSpread)).toFixed(2))
+    const buyPrice = Number(parseFloat(marketPrice * (1 - buySpread)).toFixed(2))
 
     const balances = await binanceClient.fetchBalance()
 
-    const assetBalance = balances.free(balances[asset])
-    const baseBalance = balances.free(balances[base])
+    console.log('your binance balances', balances[asset])
+    console.log('your binance base', balances[base])
 
-    const sellVolume = assetBalance * allocation
-    const buyVolume = (baseBalance * allocation) / marketPrice
+    const assetBalance = balances[asset].free
+    const baseBalance = balances[base].free
 
-    await binanceClient.createLimitSellOrder(market, sellVolume, sellPrice)
-    await binanceClient.createLimitBuyOrder(market,  buyVolume, buyPrice)
+    const sellVolume = Number(parseFloat(assetBalance * sellAllocation).toFixed(8))
+    const buyVolume = Number(
+        parseFloat((baseBalance * buyAllocation) / marketPrice).toFixed(8)
+    )
+
+    console.log(
+        'create limit sell order info >>>>',
+        market,
+        sellVolume,
+        sellPrice
+    )
+    console.log('create limit by order info >>>>', market, buyVolume, buyPrice)
+
+    // await binanceClient.createLimitSellOrder(market, sellVolume, sellPrice)
+    // await binanceClient.createLimitBuyOrder(market, buyVolume, buyPrice)
 
     console.log(`
     New tick for ${market}...
@@ -45,13 +77,24 @@ const tick = async (config, binanceClient) => {
     `)
 }
 
+const customReq = async (method, url, data = {}) => {
+    const res = await axios({
+        method,
+        url,
+        data,
+    })
+    return res
+}
+
 const run = () => {
     const config = {
         asset: 'BTC',
         base: 'USDT',
-        allocation: 0.1,
-        spread: 0.2,
-        tickInterval: 2000
+        sellAllocation: 0.1,
+        sellSpread: 0.05,
+        buyAllocation: 0.2,
+        buySpread: 0.05,
+        tickInterval: 2000,
     }
 
     const binanceClient = new ccxt.binance({
@@ -59,7 +102,7 @@ const run = () => {
         secret: process.env.BINANCE_SECRET_KEY,
     })
     tick(config, binanceClient)
-    setInterval(tick, config.tickInterval, config, binanceClient)
+    // setInterval(tick, config.tickInterval, config, binanceClient)
 }
 
 run()
