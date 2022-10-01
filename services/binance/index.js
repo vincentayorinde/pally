@@ -19,11 +19,11 @@ const tick = async (config, binanceClient) => {
 
     if (orders.length > 0) {
         orders.forEach(async (order) => {
-            await binanceClient.cancelOrder(order.id)
+            await binanceClient.cancelOrder(order.id, market)
         })
         console.log('the orders to cancel  >>>>>', orders)
     }
-
+   
     const results = await Promise.all([
         customReq(
             'get',
@@ -65,10 +65,13 @@ const tick = async (config, binanceClient) => {
         sellVolume,
         sellPrice
     )
-    console.log('create limit by order info >>>>', market, buyVolume, buyPrice)
+    console.log('create limit buy order info >>>>', market, buyVolume, buyPrice)
 
-    // await binanceClient.createLimitSellOrder(market, sellVolume, sellPrice)
-    // await binanceClient.createLimitBuyOrder(market, buyVolume, buyPrice)
+    // const sellLimitRes = await binanceClient.createLimitSellOrder(market, sellVolume, sellPrice)
+    // const buyLimitRes = await binanceClient.createLimitBuyOrder(market, buyVolume, buyPrice)
+
+    // console.log('the res for sellLimitRes >>>>', sellLimitRes);
+    // console.log('the res for buyLimitRes >>>>', buyLimitRes);
 
     console.log(`
     New tick for ${market}...
@@ -90,10 +93,10 @@ const run = () => {
     const config = {
         asset: 'BTC',
         base: 'USDT',
-        sellAllocation: 0.1,
-        sellSpread: 0.05,
-        buyAllocation: 0.2,
-        buySpread: 0.05,
+        sellAllocation: 0.5,
+        sellSpread: 0.009,
+        buyAllocation: 0.5,
+        buySpread: 0.009,
         tickInterval: 2000,
     }
 
