@@ -1,6 +1,4 @@
-import pool from '../../db/db.js'
 import util from '../../utils/util.js'
-import validator from '../../validator/users.js'
 import priceService from '../../services/price/index.js'
 import datataService from '../../services/datata/index.js'
 
