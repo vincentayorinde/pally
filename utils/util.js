@@ -68,6 +68,8 @@ const numberTo2DecimalPlaces = (number) =>{
     return Number(parseFloat(number).toFixed(2))
 }
 
+const getURL = () => process.env.DATABASE_URL ? process.env.PROD_URL : process.env.DEV_URL
+
 export default {
     serverResponse,
     hashData,
@@ -76,5 +78,6 @@ export default {
     pagination,
     generateCode,
     serverRequest,
-    numberTo2DecimalPlaces
+    numberTo2DecimalPlaces,
+    getURL
 }
