@@ -1,11 +1,21 @@
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import * as dotenv from 'dotenv'
+import axios from 'axios'
 
 dotenv.config()
 
 const serverResponse = (res, code, success, data) => {
     return res.status(code).json({ success, data })
+}
+
+const serverRequest = async (method, url, data = {}) => {
+    const res = await axios({
+        method,
+        url,
+        data,
+    })
+    return res
 }
 
 const hashData = async (data, salt) => {
@@ -54,11 +64,20 @@ const generateCode = (length) => {
     return result
 }
 
+const numberTo2DecimalPlaces = (number) =>{
+    return Number(parseFloat(number).toFixed(2))
+}
+
+const getURL = () => process.env.DATABASE_URL ? process.env.PROD_URL : process.env.DEV_URL
+
 export default {
     serverResponse,
     hashData,
     compareHash,
     jwtTokens,
     pagination,
-    generateCode
+    generateCode,
+    serverRequest,
+    numberTo2DecimalPlaces,
+    getURL
 }

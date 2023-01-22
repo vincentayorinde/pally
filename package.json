@@ -12,7 +12,8 @@
     "migrate:undo": "node db/sql/makeMigrations/${npm_config_file}/drop.js",
     "seed:one": "node db/sql/seedMigrations/${npm_config_file}/index.js",
     "migrate:undo:all": "node db/sql/dropMigrations/index.js",
-    "test": "NODE_ENV=test NODE_OPTIONS=--experimental-vm-modules jest --watchAll"
+    "test": "NODE_ENV=test NODE_OPTIONS=--experimental-vm-modules jest --watchAll",
+    "start-task": "node tasks/price"
   },
   "repository": {
     "type": "git",
@@ -26,13 +27,16 @@
   "homepage": "https://github.com/vincentayorinde/pally#readme",
   "dependencies": {
     "@sendgrid/mail": "^7.7.0",
+    "axios": "^0.27.2",
     "bcrypt": "^5.0.1",
+    "ccxt": "^1.93.14",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "dotenv": "^16.0.1",
     "express": "^4.18.1",
     "joi": "^17.6.0",
     "jsonwebtoken": "^8.5.1",
+    "node-schedule": "^2.1.0",
     "nodemon": "^2.0.19",
     "pg": "^8.7.3",
     "pino": "^8.4.2"
