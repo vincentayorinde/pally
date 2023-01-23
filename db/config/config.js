@@ -1,3 +1,6 @@
+import * as dotenv from 'dotenv'
+
+dotenv.config()
 const config = {
     development: {
         username: process.env.DB_USER,
@@ -21,5 +24,5 @@ const config = {
         dialect: 'postgres',
     },
 }
-
-module.exports = config
+console.log('the dev>>>', config.development)
+export default config
