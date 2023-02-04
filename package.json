@@ -8,12 +8,15 @@
     "start:dev": "nodemon server.js",
     "start": "node server.js",
     "migrate:one": "node db/sql/makeMigrations/${npm_config_file}/index.js",
-    "migrate": "node db/sql/makeMigrations/${npm_config_file}/index.js",
     "migrate:undo": "node db/sql/makeMigrations/${npm_config_file}/drop.js",
     "seed:one": "node db/sql/seedMigrations/${npm_config_file}/index.js",
     "migrate:undo:all": "node db/sql/dropMigrations/index.js",
     "test": "NODE_ENV=test NODE_OPTIONS=--experimental-vm-modules jest --watchAll",
-    "start-task": "node tasks/price"
+    "start-task": "node tasks/price",
+    "sequelize-cli:es6": "./node_modules/.bin/babel-node ./node_modules/.bin/sequelize $*",
+    "migrate": "npm run sequelize-cli:es6 db:migrate",
+    "migrate-one:run": "npm run sequelize-cli:es6 db:migrate",
+    "migrate-one:undo": "npm run sequelize-cli:es6 db:migrate:undo --name"
   },
   "repository": {
     "type": "git",
@@ -28,6 +31,10 @@
   "dependencies": {
     "@sendgrid/mail": "^7.7.0",
     "axios": "^0.27.2",
+    "babel-cli": "^6.26.0",
+    "babel-node": "^0.0.1-security",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-preset-latest-node": "^0.4.0",
     "bcrypt": "^5.0.1",
     "ccxt": "^1.93.14",
     "cookie-parser": "^1.4.6",
@@ -39,9 +46,15 @@
     "node-schedule": "^2.1.0",
     "nodemon": "^2.0.19",
     "pg": "^8.7.3",
-    "pino": "^8.4.2"
+    "pino": "^8.4.2",
+    "sequelize": "^6.28.0",
+    "sequelize-cli": "^6.5.2",
+    "winston": "^3.8.2"
   },
   "devDependencies": {
+    "@babel/core": "^7.20.12",
+    "@babel/node": "^7.20.7",
+    "babel-register": "^6.26.0",
     "jest": "^28.1.3",
     "supertest": "^6.2.4"
   }
