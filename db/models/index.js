@@ -26,7 +26,6 @@ if (config.use_env_variable) {
         config
     )
 }
-console.log('the db config', config)
 fs.readdirSync(__dirname)
     .filter((file) => {
         return (

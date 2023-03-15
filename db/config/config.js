@@ -24,5 +24,4 @@ const config = {
         dialect: 'postgres',
     },
 }
-console.log('the dev>>>', config.development)
 export default config

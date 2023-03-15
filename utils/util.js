@@ -9,12 +9,8 @@ const serverResponse = (res, code, success, data) => {
     return res.status(code).json({ success, data })
 }
 
-const serverRequest = async (method, url, data = {}) => {
-    const res = await axios({
-        method,
-        url,
-        data,
-    })
+const serverRequest = async (method, url, data = {}, headers) => {
+    const res = await axios({ method, url, data, headers })
     return res
 }
 
@@ -64,11 +60,12 @@ const generateCode = (length) => {
     return result
 }
 
-const numberTo2DecimalPlaces = (number) =>{
+const numberTo2DecimalPlaces = (number) => {
     return Number(parseFloat(number).toFixed(2))
 }
 
-const getURL = () => process.env.DATABASE_URL ? process.env.PROD_URL : process.env.DEV_URL
+const getURL = () =>
+    process.env.DATABASE_URL ? process.env.PROD_URL : process.env.DEV_URL
 
 export default {
     serverResponse,
@@ -79,5 +76,5 @@ export default {
     generateCode,
     serverRequest,
     numberTo2DecimalPlaces,
-    getURL
+    getURL,
 }

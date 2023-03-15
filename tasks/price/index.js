@@ -13,13 +13,21 @@ cron.scheduleJob(`*/${btCtime} * * * *`, async () => {
     const positiveNegative = priceInfo.percentageChange > 0 ? '+' : ''
 
     console.log('the price info', priceInfo)
-    const message = `Current BTC/USDT: ${priceInfo.marketPrice} (${positiveNegative + priceInfo.percentageChange}%)[$${positiveNegative + priceInfo.difference}]`
+    const message = `Current BTC/USDT: ${priceInfo.marketPrice} (${
+        positiveNegative + priceInfo.percentageChange
+    }%)[$${positiveNegative + priceInfo.difference}]`
 
     if (priceInfo.percentageChange !== 0) {
-        await util.serverRequest('post', `${util.getURL()}/api/datata`, {
-            channel: 'price_update',
-            message,
-        })
+        await util.serverRequest(
+            'post',
+            `${process.env.ALERTA_URL}/post_message`,
+            {
+                channel_name: process.env.PALLY_NOTIFICATION_CHANNEL,
+                channel_id: process.env.PALLY_NOTIFICATION_CHANNEL_ID,
+                message,
+            },
+            {secretKey: `secret ${process.env.KEY}`},
+        )
     }
 })
 
@@ -28,12 +36,20 @@ cron.scheduleJob(`*/${etHtime} * * * *`, async () => {
     const positiveNegative = priceInfo.percentageChange > 0 ? '+' : ''
 
     console.log('the price info', priceInfo)
-    const message = `Current ETH/USDT: ${priceInfo.marketPrice} (${positiveNegative + priceInfo.percentageChange}%)[$${positiveNegative + priceInfo.difference}]`
+    const message = `Current ETH/USDT: ${priceInfo.marketPrice} (${
+        positiveNegative + priceInfo.percentageChange
+    }%)[$${positiveNegative + priceInfo.difference}]`
 
     if (priceInfo.percentageChange !== 0) {
-        await util.serverRequest('post', `${util.getURL()}/api/datata`, {
-            channel: 'price_update',
-            message,
-        })
+        await util.serverRequest(
+            'post',
+            `${process.env.ALERTA_URL}/post_message`,
+            {
+                channel_name: process.env.PALLY_NOTIFICATION_CHANNEL,
+                channel_id: process.env.PALLY_NOTIFICATION_CHANNEL_ID,
+                message,
+            },
+            {secretKey: `secret ${process.env.KEY}`},
+        )
     }
 })

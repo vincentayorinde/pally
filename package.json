@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "start:dev": "nodemon server.js",
-    "start": "node server.js",
+    "start": "node server.js & npm run start-task",
     "migrate:one": "node db/sql/makeMigrations/${npm_config_file}/index.js",
     "migrate:undo": "node db/sql/makeMigrations/${npm_config_file}/drop.js",
     "seed:one": "node db/sql/seedMigrations/${npm_config_file}/index.js",
