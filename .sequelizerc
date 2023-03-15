@@ -1,0 +1,8 @@
+const config = {
+    config: './db/config/config.js',
+    'migrations-path': './db/migrations',
+    'seeders-path': './dbg/seeders',
+    'models-path': './db/models'
+  };
+
+  module.exports = config
