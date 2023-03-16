@@ -38,11 +38,11 @@ export const read = async (spot_type) => {
 }
 
 export const update = async (spot_type, price) => {
-    const query = query(
+    const q = query(
         collection(db, 'spot_prices'),
         where('type', '==', spot_type)
     )
-    const querySnapshot = await getDocs(query)
+    const querySnapshot = await getDocs(q)
     querySnapshot.forEach(async (_doc) => {
         const docRef = doc(db, 'spot_prices', _doc.id)
         updateDoc(docRef, {
