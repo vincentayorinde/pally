@@ -1,5 +1,5 @@
 import * as dotenv from 'dotenv'
-import ccxt from 'ccxt'
+// import ccxt from 'ccxt'
 import axios from 'axios'
 import Price from '../price/index.js'
 
@@ -73,11 +73,11 @@ const run = () => {
         tickInterval: 2000,
     }
 
-    const binanceClient = new ccxt.binance({
-        apiKey: process.env.BINANCE_API_KEY,
-        secret: process.env.BINANCE_SECRET_KEY,
-    })
-    buyOrder(config, binanceClient)
+    // const binanceClient = new ccxt.binance({
+    //     apiKey: process.env.BINANCE_API_KEY,
+    //     secret: process.env.BINANCE_SECRET_KEY,
+    // })
+    // buyOrder(config, binanceClient)
     // setInterval(tick, config.tickInterval, config, binanceClient)
 }
 
