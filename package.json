@@ -29,7 +29,6 @@
   },
   "homepage": "https://github.com/vincentayorinde/pally#readme",
   "dependencies": {
-    "@sendgrid/mail": "^7.7.0",
     "axios": "^0.27.2",
     "babel-cli": "^6.26.0",
     "babel-node": "^0.0.1-security",
@@ -46,10 +45,6 @@
     "jsonwebtoken": "^8.5.1",
     "node-schedule": "^2.1.0",
     "nodemon": "^2.0.19",
-    "pg": "^8.7.3",
-    "pino": "^8.4.2",
-    "sequelize": "^6.28.0",
-    "sequelize-cli": "^6.5.2",
     "winston": "^3.8.2"
   },
   "devDependencies": {
