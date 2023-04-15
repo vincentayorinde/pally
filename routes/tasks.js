@@ -3,8 +3,8 @@ import taskController from '../controllers/tasks/task.js'
 
 const router = express.Router()
 
-router.post('/', taskController.sendToSlack)
-router.post('/runBTC', taskController.runBTCJob)
-router.post('/runETH', taskController.runETHJob)
+router.get('/', taskController.sendToSlack)
+router.get('/runBTC', taskController.runBTCJob)
+router.get('/runETH', taskController.runETHJob)
 
 export default router
