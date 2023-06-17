@@ -2,6 +2,7 @@ import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import * as dotenv from 'dotenv'
 import axios from 'axios'
+import winston from 'winston'
 
 dotenv.config()
 
@@ -67,6 +68,18 @@ const numberTo2DecimalPlaces = (number) => {
 const getURL = () =>
     process.env.DATABASE_URL ? process.env.PROD_URL : process.env.DEV_URL
 
+// Create a logger instance
+const logger = winston.createLogger({
+    level: 'info', // Set the log level
+    format: winston.format.combine(
+      winston.format.timestamp(), // Add a timestamp to each log entry
+      winston.format.json() // Use JSON format for log entries
+    ),
+    transports: [
+      new winston.transports.Console() // Output logs to the console
+    ]
+  });
+
 export default {
     serverResponse,
     hashData,
@@ -77,4 +90,5 @@ export default {
     serverRequest,
     numberTo2DecimalPlaces,
     getURL,
+    logger 
 }

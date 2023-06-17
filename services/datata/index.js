@@ -4,6 +4,7 @@ import dotenv from 'dotenv'
 
 dotenv.config()
 
+// slack notification
 const baseUrl = process.env.SLACK_WEBHOOK;
 
 const channels = {
