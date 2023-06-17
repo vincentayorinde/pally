@@ -1,9 +1,11 @@
 import axios from 'axios';
 import util from '../../utils/util.js';
 import dotenv from 'dotenv'
+import Discord from 'discord.js'
 
 dotenv.config()
 
+// slack notification
 const baseUrl = process.env.SLACK_WEBHOOK;
 
 const channels = {
