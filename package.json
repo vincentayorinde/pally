@@ -19,7 +19,8 @@
     "sequelize-cli:es6": "./node_modules/.bin/babel-node ./node_modules/.bin/sequelize $*",
     "migrate": "npm run sequelize-cli:es6 db:migrate",
     "migrate-one:run": "npm run sequelize-cli:es6 db:migrate",
-    "migrate-one:undo": "npm run sequelize-cli:es6 db:migrate:undo --name"
+    "migrate-one:undo": "npm run sequelize-cli:es6 db:migrate:undo --name",
+    "cron": "node tasks/cron/cron.js"
   },
   "repository": {
     "type": "git",
@@ -50,7 +51,7 @@
     "pg": "^8.7.3",
     "pino": "^8.4.2",
     "sequelize": "^6.28.0",
-    "winston": "^3.8.2"
+    "winston": "^3.9.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.12",
