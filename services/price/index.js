@@ -1,11 +1,11 @@
 import * as dotenv from 'dotenv'
 import util from '../../utils/util.js'
 import fs from 'fs'
-import { add, read, update } from '../../utils/firebase.js'
+import { addSetting, updateSetting, getSetting } from '../../db/firebase/setting.js'
 
 dotenv.config()
 
-const getBtcUsdtPrice = async () => {
+const getBtcUsdtPrice = async (lastMarketPrice) => {
     const results = await Promise.all([
         util.serverRequest(
             'get',
@@ -17,27 +17,15 @@ const getBtcUsdtPrice = async () => {
         ),
     ])
 
-    console.log('the prices result >>>', results[0].data, results[1].data)
-
     const marketPrice = util.numberTo2DecimalPlaces(
         results[0].data.bitcoin.usd / results[1].data.tether.usd
     )
 
-    console.log('the market price >>>>', marketPrice)
-
-    // store price in csv
-    let lastMarketPrice = await read('btc')
-    lastMarketPrice = lastMarketPrice.price
-    console.log('the lastMarketPrice', lastMarketPrice)
-    // const lastMarketPrice = fs.readFileSync("./db/prices/btc_price.csv", "utf8");
     if (!lastMarketPrice) {
-        await add({ price: marketPrice, type: 'btc' })
+        await addSetting({ name: 'btcPrice', value: marketPrice, dateAdded: new Date() })
     } else {
-        console.log('>>>> updating')
-        await update('btc', marketPrice)
+        await updateSetting('btcPrice', marketPrice)
     }
-    // fs.writeFileSync("./db/prices/btc_price.csv", marketPrice.toString(), "utf8");
-
     const difference = util.numberTo2DecimalPlaces(
         marketPrice - Number(lastMarketPrice)
     )
@@ -45,10 +33,10 @@ const getBtcUsdtPrice = async () => {
     const percentageChange = util.numberTo2DecimalPlaces(
         (marketPrice - Number(lastMarketPrice)) / 100
     )
-    return { marketPrice, percentageChange, difference }
+    return { marketPrice, percentageChange, difference, lastMarketPrice }
 }
 
-const getEthUsdtPrice = async () => {
+const getEthUsdtPrice = async (lastMarketPrice) => {
     const results = await Promise.all([
         util.serverRequest(
             'get',
@@ -60,28 +48,17 @@ const getEthUsdtPrice = async () => {
         ),
     ])
 
-    console.log('the ETH prices result >>>', results[0].data, results[1].data)
 
     const marketPrice = util.numberTo2DecimalPlaces(
         results[0].data.ethereum.usd / results[1].data.tether.usd
     )
-
-    console.log('the ETH market price >>>>', marketPrice)
-
-    // store price in csv
-    // const lastMarketPrice = fs.readFileSync("./db/prices/eth_price.csv", "utf8");
-    // fs.writeFileSync("./db/prices/eth_price.csv", marketPrice.toString(), "utf8");
-    // store price in csv
-    let lastMarketPrice = await read('eth')
-    lastMarketPrice = lastMarketPrice.price
-    console.log('the lastMarketPrice', lastMarketPrice)
-    // const lastMarketPrice = fs.readFileSync("./db/prices/btc_price.csv", "utf8");
+    
     if (!lastMarketPrice) {
-        await add({ price: marketPrice, type: 'eth' })
+        await addSetting({ name: 'ethPrice', value: marketPrice, dateAdded: new Date() })
     } else {
-        await update('eth', marketPrice)
+        await updateSetting('ethPrice', marketPrice)
     }
-    // fs.writeFileSync("./db/prices/btc_price.csv", marketPrice.toString(), "utf8");
+    
 
     const difference = util.numberTo2DecimalPlaces(
         marketPrice - Number(lastMarketPrice)

@@ -1,6 +1,6 @@
 import cron from 'node-schedule'
 import dotenv from 'dotenv'
-import { handleBTCJob, handleETHJob } from '../../tasks/price/index.js'
+import { handleBTCJob, handleETHJob } from '../price/index.js'
 
 import util from '../../utils/util.js'
 

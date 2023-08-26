@@ -4,6 +4,7 @@ import * as dotenv from 'dotenv'
 import axios from 'axios'
 import winston from 'winston'
 
+
 dotenv.config()
 
 const serverResponse = (res, code, success, data) => {
@@ -65,6 +66,9 @@ const numberTo2DecimalPlaces = (number) => {
     return Number(parseFloat(number).toFixed(2))
 }
 
+
+
+
 const getURL = () =>
     process.env.DATABASE_URL ? process.env.PROD_URL : process.env.DEV_URL
 
@@ -72,13 +76,14 @@ const getURL = () =>
 const logger = winston.createLogger({
     level: 'info', // Set the log level
     format: winston.format.combine(
-      winston.format.timestamp(), // Add a timestamp to each log entry
-      winston.format.json() // Use JSON format for log entries
+        winston.format.timestamp(), // Add a timestamp to each log entry
+        winston.format.json() // Use JSON format for log entries
     ),
     transports: [
-      new winston.transports.Console() // Output logs to the console
+        new winston.transports.Console() // Output logs to the console
     ]
-  });
+});
+
 
 export default {
     serverResponse,
@@ -90,5 +95,5 @@ export default {
     serverRequest,
     numberTo2DecimalPlaces,
     getURL,
-    logger 
+    logger
 }
