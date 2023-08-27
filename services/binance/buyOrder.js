@@ -17,7 +17,6 @@ const buyOrder = async (config, binanceClient) => {
     const orders = await binanceClient.fetchOpenOrders(market)
 
     if (orders.length > 0) {
-        console.log('the orders to cancel  >>>>>', orders)
         orders.forEach(async (order) => {
             await binanceClient.cancelOrder(order.id, market)
         })
@@ -25,11 +24,7 @@ const buyOrder = async (config, binanceClient) => {
    
 
     const priceData = await Price.getBtcUsdtPrice()
-    console.log('the price data ', priceData);
     const marketPrice = priceData.marketPrice
-
-    console.log('the market price', Number(parseFloat(marketPrice).toFixed(2)))
-    console.log('the buy spread >>>', 1 - buySpread, buySpread)
 
     const buyPrice = Number(parseFloat(marketPrice * (1 - buySpread)).toFixed(2))
 
@@ -38,11 +33,6 @@ const buyOrder = async (config, binanceClient) => {
     const binanceAskPrice = await binanceClient.fetchTicker(market)
 
     // get closed bid price
-    console.log('the ask price >>>>', binanceAskPrice)
-
-
-    console.log('your binance balances', balances[asset])
-    console.log('your binance base', balances[base])
 
     const assetBalance = balances[asset].free
     const baseBalance = balances[base].free
@@ -51,7 +41,6 @@ const buyOrder = async (config, binanceClient) => {
         parseFloat((baseBalance * buyAllocation) / marketPrice).toFixed(8)
     )
 
-    console.log('create limit buy order info >>>>', market, buyVolume, marketPrice, buyPrice)
     // const buyLimitRes = await binanceClient.createLimitBuyOrder(market, buyVolume, marketPrice)
 
     // console.log('the res for buyLimitRes >>>>', buyLimitRes);

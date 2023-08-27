@@ -7,6 +7,9 @@ import { fileURLToPath } from 'url'
 import authRouter from './routes/auth.js'
 import usersRouter from './routes/users.js'
 import taskRouter from './routes/tasks.js'
+import settingsRouter from './routes/settings.js'
+import transactionsRouter from './routes/transactions.js'
+import revenuesRouter from './routes/revenue.js'
 
 dotenv.config()
 
@@ -22,5 +25,8 @@ app.use('/', express.static(join(__dirname, 'public')))
 app.use('/api/users', usersRouter)
 app.use('/api/auth', authRouter)
 app.use('/api/datata', taskRouter)
+app.use('/api/settings', settingsRouter)
+app.use('/api/transactions', transactionsRouter)
+app.use('/api/revenues', revenuesRouter)
 
 export default app

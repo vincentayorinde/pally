@@ -1,5 +1,5 @@
 import util from '../../utils/util.js'
-import { handleBTCJob, handleETHJob } from '../../tasks/price/index.js'
+import { handleBTCJob, handleETHJob } from '../../jobs/price/index.js'
 const sendToSlack = async (req, res) => {
     try {
         const { channel, message } = req.body

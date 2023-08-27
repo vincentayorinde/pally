@@ -5,10 +5,10 @@
   "main": "index.js",
   "type": "module",
   "engines": {
-    "node": "14.x"
+    "node": "18.x"
   },
   "scripts": {
-    "start:dev": "nodemon index.js",
+    "start:dev": "DEBUG=express:* nodemon index.js",
     "start": "node index.js & npm run start-task",
     "migrate:one": "node db/sql/makeMigrations/${npm_config_file}/index.js",
     "migrate:undo": "node db/sql/makeMigrations/${npm_config_file}/drop.js",
@@ -20,7 +20,7 @@
     "migrate": "npm run sequelize-cli:es6 db:migrate",
     "migrate-one:run": "npm run sequelize-cli:es6 db:migrate",
     "migrate-one:undo": "npm run sequelize-cli:es6 db:migrate:undo --name",
-    "cron": "node tasks/cron/cron.js"
+    "cron": "node jobs/cron/cron.js"
   },
   "repository": {
     "type": "git",
